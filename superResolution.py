@@ -60,7 +60,7 @@ elif factor == 8:
 else:
     assert False, 'We did not experiment with other factors'
 
-net_input = get_noise(input_depth, INPUT, (int(GTimg_np.size[1]), int(GTimg_np.size[0]))).type(dtype).detach()
+net_input = get_noise(input_depth, INPUT, [GTimg_np.size[1], GTimg_np.size[0]]).type(dtype).detach()
 
 NET_TYPE = 'skip' # UNet, ResNet
 net = get_net(input_depth, 'skip', pad,
