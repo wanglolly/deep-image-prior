@@ -29,8 +29,8 @@ img_np = pil_to_np(img_pil)
 img_noisy_pil, img_noisy_np = get_noisy_image(img_np, sigma_)  
 if SAVE:
     #plot_image_grid([img_np, img_noisy_np], 4, 6)
-    saveImage("Results/Denoising_Original.png", img_np)
-    saveImage("Results/Denoising_NoiseImage.png", img_noisy_np)
+    saveImage("Results/Denoising_Original.png", img_np, 4)
+    saveImage("Results/Denoising_NoiseImage.png", img_noisy_np, 4)
 
 #Setup
 INPUT = 'noise' # 'meshgrid'
@@ -86,7 +86,7 @@ def closure():
     if  SAVE and i % show_every == 0:
         out_np = var_to_np(out)
         #plot_image_grid([np.clip(out_np, 0, 1)], factor=figsize, nrow=1)
-        saveImage("Results/Denoising_Itr" + str(i) + ".png", out_np)
+        saveImage("Results/Denoising_Itr" + str(i) + ".png", out_np, 1)
         
     i += 1
 
@@ -98,4 +98,4 @@ optimize(OPTIMIZER, p, closure, LR, num_iter)
 out_np = var_to_np(net(net_input))
 if SAVE:
     #q = plot_image_grid([np.clip(out_np, 0, 1), img_np], factor=13)
-    saveImage("Results/Denoising_FinalOutput.png", out_np)
+    saveImage("Results/Denoising_FinalOutput.png", out_np, 8)

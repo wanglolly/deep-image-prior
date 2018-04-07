@@ -90,8 +90,10 @@ def load(path):
     img = Image.open(path)
     return img
 
-def saveImage(path, images_np):
-    im = Image.fromarray(images_np, 'RGB')
+def saveImage(path, images_np, nrow = 8):
+    grid = get_image_grid(images_np, nrow)
+    grid = grid.transpose(1,2,0)
+    im = Image.fromarray(grid, 'RGB')
     im.save(path)
 
 def get_image(path, imsize=-1):
