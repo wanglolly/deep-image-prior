@@ -28,7 +28,7 @@ fname = 'data/images/noise_image.png'
 img_pil = crop_image(get_image(fname, imsize)[0], d=32)
 img_np = pil_to_np(img_pil)     
 if SAVE:
-    saveImage("Results/Denoising/Denoising_Original.png", img_np, 4, 6)
+    saveImage("Results/Denoising/Denoising_Original.png", img_np, nrow = 4, factor = 1)
 
 #Load GT image
 GTfilename = "data/images/noise_GT.png"
@@ -48,7 +48,7 @@ show_every = 300
 
 num_iter = 1800
 input_depth = 32 
-figsize = 1 
+figsize = 4 
     
 net = get_net(input_depth, 'skip', pad,
                 skip_n33d=128, 
@@ -98,7 +98,7 @@ def closure():
     print ('Iteration %05d    Loss %f   PSNR %.3f' % (i, total_loss.data[0], compare_psnr(GTimg_np, out_np)), '\r', end='')
     PSNRCursor.writerow([str(i), compare_psnr(GTimg_np, out_np), total_loss.data[0]])
     if  SAVE and i % show_every == 0:
-        saveImage("Results/Denoising/Denoising_Itr" + str(i) + ".png", out_np, nrow = 1)  
+        saveImage("Results/Denoising/Denoising_Itr" + str(i) + ".png", out_np, nrow = 1, factor = 1)  
     i += 1
 
     return total_loss
