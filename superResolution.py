@@ -28,7 +28,8 @@ SAVE = True
 path_to_image = 'data/images/LowResolution.png'
 
 #Load Image
-img_pil = crop_image(get_image(path_to_image, imsize)[0], d=32)
+#img_pil = crop_image(get_image(path_to_image, imsize)[0], d=32)
+img_pil = get_image(path_to_image, imsize)[0], d=32
 img_np = pil_to_np(img_pil)     
 if SAVE:
     saveImage("Results/SuperResolution/SR_Original.png", img_np, 4, 12)
