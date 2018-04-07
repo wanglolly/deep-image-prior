@@ -82,10 +82,6 @@ PSNRFilename = 'Results/SuperResolution/PSNR.csv'
 PSNRFile = open(PSNRFilename, 'w')
 PSNRCursor = csv.writer(PSNRFile)
 
-#Initial PSNR
-print ('Input PSNR %.3f' % (compare_psnr(downsampler(GTimg_np), img_np)), '\n', end='') 
-PSNRCursor.writerow(['Input', compare_psnr(downsampler(GTimg_np), img_np)])
-
 #Define closure and optimize
 def closure():
     global i
