@@ -103,4 +103,4 @@ optimize(OPTIMIZER, p, closure, LR, num_iter)
 out_np = var_to_np(net(net_input))
 if SAVE:
     saveImage("Results/Denoising/Denoising_FinalOutput.png", out_np, factor=13)
-    print ('Final PSNR %.3f' % (compare_psnr(GTimg_np, out_np)), '\n', end='') 
+    print ('\n' +'Final PSNR %.3f' % (compare_psnr(GTimg_np, out_np)), '\n', end='') 
