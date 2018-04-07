@@ -48,7 +48,7 @@ show_every = 300
 
 num_iter = 1800
 input_depth = 32 
-figsize = 4 
+figsize = 1 
     
 net = get_net(input_depth, 'skip', pad,
                 skip_n33d=128, 
@@ -98,7 +98,7 @@ def closure():
     print ('Iteration %05d    Loss %f   PSNR %.3f' % (i, total_loss.data[0], compare_psnr(GTimg_np, out_np)), '\r', end='')
     PSNRCursor.writerow([str(i), compare_psnr(GTimg_np, out_np), total_loss.data[0]])
     if  SAVE and i % show_every == 0:
-        saveImage("Results/Denoising/Denoising_Itr" + str(i) + ".png", out_np, nrow = 1, factor = figsize)  
+        saveImage("Results/Denoising/Denoising_Itr" + str(i) + ".png", out_np, nrow = 1)  
     i += 1
 
     return total_loss
@@ -108,7 +108,7 @@ optimize(OPTIMIZER, p, closure, LR, num_iter)
 
 out_np = var_to_np(net(net_input))
 if SAVE:
-    saveImage("Results/Denoising/Denoising_FinalOutput.png", out_np, factor=13)
+    saveImage("Results/Denoising/Denoising_FinalOutput.png", out_np)
     print ('\n' +'Final PSNR %.3f' % (compare_psnr(GTimg_np, out_np)), '\n', end='') 
     PSNRCursor.writerow(['Final', compare_psnr(GTimg_np, out_np)])
 PSNRFile.close()

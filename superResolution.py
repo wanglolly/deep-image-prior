@@ -31,7 +31,7 @@ path_to_image = 'data/images/LowResolution.png'
 img_pil = crop_image(get_image(path_to_image, imsize)[0], d=32)
 img_np = pil_to_np(img_pil)     
 if SAVE:
-    saveImage("Results/SuperResolution/SR_Original.png", img_np, 4, 12)
+    saveImage("Results/SuperResolution/SR_Original.png", img_np, 4)
 
 #Load GT image
 GTfilename = "data/images/SR_GT.png"
@@ -92,7 +92,7 @@ def closure():
     out_HR = net(net_input)
     out_LR = crop_npimage(downsampler(out_HR), d = 32)
 
-    total_loss = mse(out_LR, img_LR_var) 
+    total_loss = mse(out_LR, img_sLR_var) 
     
     if tv_weight > 0:
         total_loss += tv_weight * tv_loss(out_HR)
@@ -109,7 +109,7 @@ def closure():
     
     if SAVE and i % 500 == 0:
         out_HR_np = var_to_np(out_HR)
-        saveImage("Results/SuperResolution/SR_Itr" + str(i) + ".png", np.clip(out_HR_np, 0, 1), nrow = 3, factor = 13)
+        saveImage("Results/SuperResolution/SR_Itr" + str(i) + ".png", np.clip(out_HR_np, 0, 1), nrow = 3)
  
     i += 1
     
@@ -127,6 +127,6 @@ out_HR_np = np.clip(var_to_np(net(net_input)), 0, 1)
 #result_deep_prior = put_in_center(out_HR_np, imgs['orig_np'].shape[1:])
 
 # For the paper we acually took `_bicubic.png` files from LapSRN viewer and used `result_deep_prior` as our result
-saveImage("Results/SuperResolution/SR_Final.png", out_HR_np, nrow = 1, factor = 4)
+saveImage("Results/SuperResolution/SR_Final.png", out_HR_np, nrow = 1)
 PSNRCursor.writerow(['Final', compare_psnr(GTimg_np, out_HR_np)]) 
 PSNRFile.close()
