@@ -85,11 +85,11 @@ def closure():
     total_loss = mse(out, img_noisy_var)
     total_loss.backward()
         
-    #print ('Iteration %05d    Loss %f' % (i, total_loss.data[0]), '\r', end='')
+    print ('Iteration %05d    Loss %f' % (i, total_loss.data[0]), '\r', end='')
     if  SAVE and i % show_every == 0:
         out_np = var_to_np(out)
         saveImage("Results/Denoising/Denoising_Itr" + str(i) + ".png", out_np, nrow = 1, factor = figsize)
-        print ('Iteration %05d   PSNR %.3f  Loss %f' % (i,  compare_psnr(GTimg_np, out_np),total_loss.data[0]), end='')
+        print ('Iteration %05d   PSNR %.3f  Loss %f' % (i,  compare_psnr(GTimg_np, out_np),total_loss.data[0]), '\n',end='')
     i += 1
 
     return total_loss
