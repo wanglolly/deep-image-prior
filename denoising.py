@@ -25,7 +25,6 @@ SAVE = True
 
 #Load Image
 fname = 'data/images/noise_image.png'
-# Add synthetic noise
 img_pil = crop_image(get_image(fname, imsize)[0], d=32)
 img_np = pil_to_np(img_pil)     
 if SAVE:
@@ -112,3 +111,4 @@ if SAVE:
     saveImage("Results/Denoising/Denoising_FinalOutput.png", out_np, factor=13)
     print ('\n' +'Final PSNR %.3f' % (compare_psnr(GTimg_np, out_np)), '\n', end='') 
     PSNRCursor.writerow(['Final', compare_psnr(GTimg_np, out_np)])
+PSNRFile.close()

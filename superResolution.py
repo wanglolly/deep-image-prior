@@ -27,19 +27,16 @@ SAVE = True
 # e.g. x4/zebra_GT.png for factor=4, and x8/zebra_GT.png for factor=8 
 path_to_image = 'data/images/SR_GT.png'
 
-#Load Image and Baseline
-# Starts here
-imgs = load_LR_HR_imgs_sr(path_to_image , imsize, factor, enforse_div32)
-imgs['bicubic_np'], imgs['sharp_np'], imgs['nearest_np'] = get_baselines(imgs['LR_pil'], imgs['HR_pil'])
-
+#Load Image
+img_pil = crop_image(get_image(path_to_image, imsize)[0], d=32)
+img_np = pil_to_np(img_pil)     
 if SAVE:
-    saveImage("Results/SuperResolution/HR_np",imgs['HR_np'], 4, 12)
-    saveImage("Results/SuperResolution/bicubic_np",imgs['bicubic_np'], 4, 12)
-    saveImage("Results/SuperResolution/sharp_np",imgs['sharp_np'], 4, 12)
-    saveImage("Results/SuperResolution/nearest_np",imgs['nearest_np'], 4, 12)
-    print ('PSNR bicubic: %.4f   PSNR nearest: %.4f' %  (
-                                        compare_psnr(imgs['HR_np'], imgs['bicubic_np']), 
-                                        compare_psnr(imgs['HR_np'], imgs['nearest_np'])))
+    saveImage("Results/SuperResolution/SR_Original.png", img_np, 4, 12)
+
+#Load GT image
+GTfilename = "data/images/SR_GT.png"
+GTimg_pil = crop_image(get_image(GTfilename, imsize)[0], d=32)
+GTimg_np = pil_to_np(GTimg_pil) 
 
 #Set up parameters and net
 input_depth = 32
@@ -56,14 +53,14 @@ OPTIMIZER = 'adam'
 
 if factor == 4: 
     num_iter = 2000
-    reg_noise_std = 0.03
+    reg_noise_std = 1./30.
 elif factor == 8:
     num_iter = 4000
-    reg_noise_std = 0.05
+    reg_noise_std = 1./20.
 else:
     assert False, 'We did not experiment with other factors'
 
-net_input = get_noise(input_depth, INPUT, (imgs['HR_pil'].size[1], imgs['HR_pil'].size[0])).type(dtype).detach()
+net_input = get_noise(input_depth, INPUT, (GTimg_np.size[1], GTimg_np.size[0])).type(dtype).detach()
 
 NET_TYPE = 'skip' # UNet, ResNet
 net = get_net(input_depth, 'skip', pad,
@@ -76,12 +73,20 @@ net = get_net(input_depth, 'skip', pad,
 # Losses
 mse = torch.nn.MSELoss().type(dtype)
 
-img_LR_var = np_to_var(imgs['LR_np']).type(dtype)
+img_LR_var = np_to_var(img_np).type(dtype)
 
 downsampler = Downsampler(n_planes=3, factor=factor, kernel_type=KERNEL_TYPE, phase=0.5, preserve_size=True).type(dtype)
 
-#Define closure and optimize
+#Prepare PSNR File
+PSNRFilename = 'Results/SuperResolution/PSNR.csv'
+PSNRFile = open(PSNRFilename, 'w')
+PSNRCursor = csv.writer(PSNRFile)
 
+#Initial PSNR
+print ('Input PSNR %.3f' % (compare_psnr(downsampler(GTimg_np), img_np)), '\n', end='') 
+PSNRCursor.writerow(['Input', compare_psnr(downsampler(GTimg_np), img_np)])
+
+#Define closure and optimize
 def closure():
     global i
     
@@ -99,18 +104,17 @@ def closure():
     total_loss.backward()
 
     # Log
-    psnr_LR = compare_psnr(imgs['LR_np'], var_to_np(out_LR))
-    psnr_HR = compare_psnr(imgs['HR_np'], var_to_np(out_HR))
+    psnr_LR = compare_psnr(img_np, var_to_np(out_LR))
+    psnr_HR = compare_psnr(GTimg_np, var_to_np(out_HR))
     print ('Iteration %05d    PSNR_LR %.3f   PSNR_HR %.3f' % (i, psnr_LR, psnr_HR), '\r', end='')
-                      
+    PSNRCursor.writerow([i, psnr_HR, psnr_LR])                  
     # History
     psnr_history.append([psnr_LR, psnr_HR])
     
     if SAVE and i % 500 == 0:
         out_HR_np = var_to_np(out_HR)
-        saveImage("Results/SuperResolution/SR_Itr" + str(i) + ".png", np.clip(out_HR_np, 0, 1), 3, 13)
-        #plot_image_grid([imgs['HR_np'], imgs['bicubic_np'], np.clip(out_HR_np, 0, 1)], factor=13, nrow=3)
-
+        saveImage("Results/SuperResolution/SR_Itr" + str(i) + ".png", np.clip(out_HR_np, 0, 1), nrow = 3, factor = 13)
+ 
     i += 1
     
     return total_loss
@@ -124,8 +128,9 @@ p = get_params(OPT_OVER, net, net_input)
 optimize(OPTIMIZER, p, closure, LR, num_iter)
 
 out_HR_np = np.clip(var_to_np(net(net_input)), 0, 1)
-result_deep_prior = put_in_center(out_HR_np, imgs['orig_np'].shape[1:])
+#result_deep_prior = put_in_center(out_HR_np, imgs['orig_np'].shape[1:])
 
 # For the paper we acually took `_bicubic.png` files from LapSRN viewer and used `result_deep_prior` as our result
-#plot_image_grid([imgs['HR_np'],imgs['bicubic_np'],out_HR_np], factor=4, nrow=1)
-saveImage("Results/SuperResolution/SR_Final.png", out_HR_np, 1, 4)
+saveImage("Results/SuperResolution/SR_Final.png", out_HR_np, nrow = 1, factor = 4)
+PSNRCursor.writerow(['Final', compare_psnr(GTimg_np, out_HR_np)]) 
+PSNRFile.close()
