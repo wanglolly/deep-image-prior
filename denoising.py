@@ -96,9 +96,8 @@ def closure():
     total_loss.backward()
 
     out_np = var_to_np(out)    
-    print ('Iteration %05d    Loss %f' % (i, total_loss.data[0]), '\n', end='')
-    print ('Iteration %05d   PSNR %.3f' % (i,  compare_psnr(GTimg_np, out_np)), '\r',end='') 
-    PSNRCursor.writerow([str(i), compare_psnr(GTimg_np, out_np)])
+    print ('Iteration %05d    Loss %f   PSNR %.3f' % (i, total_loss.data[0], ompare_psnr(GTimg_np, out_np)), '\r', end='')
+    PSNRCursor.writerow([str(i), compare_psnr(GTimg_np, out_np), total_loss.data[0]])
     if  SAVE and i % show_every == 0:
         saveImage("Results/Denoising/Denoising_Itr" + str(i) + ".png", out_np, nrow = 1, factor = figsize)  
     i += 1
