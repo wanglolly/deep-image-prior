@@ -32,8 +32,8 @@ def crop_image(img, d=32):
 
 def crop_npimage(img, d=32):
     '''Make dimensions divisible by `d`'''
-    new_size = (img.shape[2] - img.shape[3] % d, 
-                img.shape[2] - img.shape[3] % d)
+    new_size = (img.shape[2] - img.shape[2] % d, 
+                img.shape[3] - img.shape[3] % d)
 
     bbox = [
             int((img.shape[0] - new_size[0])/2), 
