@@ -97,5 +97,5 @@ optimize(OPTIMIZER, p, closure, LR, num_iter)
 
 out_np = var_to_np(net(net_input))
 if SAVE:
-    q = plot_image_grid([np.clip(out_np, 0, 1), img_np], factor=13)
+    #q = plot_image_grid([np.clip(out_np, 0, 1), img_np], factor=13)
     saveImage("Results/Denoising_FinalOutput.png", out_np)
