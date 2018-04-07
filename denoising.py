@@ -98,7 +98,7 @@ def closure():
     out_np = var_to_np(out)    
     print ('Iteration %05d    Loss %f' % (i, total_loss.data[0]), '\n', end='')
     print ('Iteration %05d   PSNR %.3f' % (i,  compare_psnr(GTimg_np, out_np)), '\r',end='') 
-    PSNRCursor.writerow([str(i)], compare_psnr(GTimg_np, out_np))
+    PSNRCursor.writerow([str(i), compare_psnr(GTimg_np, out_np)])
     if  SAVE and i % show_every == 0:
         saveImage("Results/Denoising/Denoising_Itr" + str(i) + ".png", out_np, nrow = 1, factor = figsize)  
     i += 1
@@ -112,4 +112,4 @@ out_np = var_to_np(net(net_input))
 if SAVE:
     saveImage("Results/Denoising/Denoising_FinalOutput.png", out_np, factor=13)
     print ('\n' +'Final PSNR %.3f' % (compare_psnr(GTimg_np, out_np)), '\n', end='') 
-    PSNRCursor.writerow('Final', compare_psnr(GTimg_np, out_np))
+    PSNRCursor.writerow(['Final', compare_psnr(GTimg_np, out_np)])
