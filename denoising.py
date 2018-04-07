@@ -17,7 +17,7 @@ torch.backends.cudnn.benchmark =True
 dtype = torch.cuda.FloatTensor
 
 imsize =-1
-PLOT = True
+PLOT = False
 sigma = 25
 sigma_ = sigma/255.
 
@@ -132,4 +132,4 @@ p = get_params(OPT_OVER, net, net_input)
 optimize(OPTIMIZER, p, closure, LR, num_iter)
 
 out_np = var_to_np(net(net_input))
-q = plot_image_grid([np.clip(out_np, 0, 1), img_np], factor=13);
+q = plot_image_grid([np.clip(out_np, 0, 1), img_np], factor=13)
