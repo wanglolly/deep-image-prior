@@ -32,7 +32,7 @@ def crop_image(img, d=32):
 
 def crop_npimage(img, d=32):
     '''Make dimensions divisible by `d`'''
-
+    print(str(img.shape[0]) + " " + img.shape[1] )
     new_size = (img.shape[0] - img.shape[0] % d, 
                 img.shape[1] - img.shape[1] % d)
 
