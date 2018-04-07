@@ -106,7 +106,7 @@ def closure():
     # History
     psnr_history.append([psnr_LR, psnr_HR])
     
-    if PLOT and i % 500 == 0:
+    if SAVE and i % 500 == 0:
         out_HR_np = var_to_np(out_HR)
         saveImage("Results/SuperResolution/SR_Itr" + str(i) + ".png", np.clip(out_HR_np, 0, 1), 3, 13)
         #plot_image_grid([imgs['HR_np'], imgs['bicubic_np'], np.clip(out_HR_np, 0, 1)], factor=13, nrow=3)
