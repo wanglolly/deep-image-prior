@@ -128,6 +128,6 @@ out_HR_np = np.clip(var_to_np(net(net_input)), 0, 1)
 
 # For the paper we acually took `_bicubic.png` files from LapSRN viewer and used `result_deep_prior` as our result
 saveImage("Results/SuperResolution/SR_Final.png", out_HR_np, nrow = 1)
-print ('Final   PSNR_HR %.3f' % (compare_psnr(GTimg_np, out_HR_np)), '\r', end='')
+print ('Final   PSNR_HR %.3f' % (compare_psnr(GTimg_np, out_HR_np)), '\n', end='')
 PSNRCursor.writerow(['Final', compare_psnr(GTimg_np, out_HR_np)]) 
 PSNRFile.close()
