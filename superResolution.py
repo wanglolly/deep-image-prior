@@ -26,11 +26,11 @@ dtype = torch.cuda.FloatTensor
 imsize = -1 
 factor = 4 # 8
 enforse_div32 = 'CROP' # we usually need the dimensions to be divisible by a power of two (32 in this case)
-PLOT = False
+SAVE = False
 
 # To produce images from the paper we took *_GT.png images from LapSRN viewer for corresponding factor,
 # e.g. x4/zebra_GT.png for factor=4, and x8/zebra_GT.png for factor=8 
-path_to_image = 'data/sr/zebra_GT.png'
+path_to_image = 'data/images/LowResolution.png'
 
 #Load Image and Baseline
 
@@ -40,7 +40,11 @@ imgs = load_LR_HR_imgs_sr(path_to_image , imsize, factor, enforse_div32)
 imgs['bicubic_np'], imgs['sharp_np'], imgs['nearest_np'] = get_baselines(imgs['LR_pil'], imgs['HR_pil'])
 
 if PLOT:
-    plot_image_grid([imgs['HR_np'], imgs['bicubic_np'], imgs['sharp_np'], imgs['nearest_np']], 4,12);
+    saveImage("Results/SuperResolution/HR_np",imgs['HR_np'], 4, 12)
+    saveImage("Results/SuperResolution/bicubic_np",imgs['bicubic_np'], 4, 12)
+    saveImage("Results/SuperResolution/sharp_np",imgs['sharp_np'], 4, 12)
+    saveImage("Results/SuperResolution/nearest_np",imgs['nearest_np'], 4, 12)
+    #plot_image_grid([imgs['HR_np'], imgs['bicubic_np'], imgs['sharp_np'], imgs['nearest_np']], 4,12)
     print ('PSNR bicubic: %.4f   PSNR nearest: %.4f' %  (
                                         compare_psnr(imgs['HR_np'], imgs['bicubic_np']), 
                                         compare_psnr(imgs['HR_np'], imgs['nearest_np'])))
@@ -130,6 +134,4 @@ out_HR_np = np.clip(var_to_np(net(net_input)), 0, 1)
 result_deep_prior = put_in_center(out_HR_np, imgs['orig_np'].shape[1:])
 
 # For the paper we acually took `_bicubic.png` files from LapSRN viewer and used `result_deep_prior` as our result
-plot_image_grid([imgs['HR_np'],
-                 imgs['bicubic_np'],
-                 out_HR_np], factor=4, nrow=1);
+plot_image_grid([imgs['HR_np'],imgs['bicubic_np'],out_HR_np], factor=4, nrow=1)

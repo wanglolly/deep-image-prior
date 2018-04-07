@@ -11,6 +11,7 @@ import torch
 import torch.optim
 from torch.autograd import Variable
 from utils.denoising_utils import *
+from skimage.measure import compare_psnr
 
 torch.backends.cudnn.enabled = True
 torch.backends.cudnn.benchmark =True
@@ -27,8 +28,12 @@ fname = 'data/images/noise_image.png'
 img_pil = crop_image(get_image(fname, imsize)[0], d=32)
 img_np = pil_to_np(img_pil)     
 if SAVE:
-    #plot_image_grid([img_np, img_noisy_np], 4, 6)
     saveImage("Results/Denoising/Denoising_Original.png", img_np, 4, 6)
+
+#Load GT image
+GTfilename = "data/images/noise_GT.png"
+GTimg_pil = crop_image(get_image(GTfilename, imsize)[0], d=32)
+GTimg_np = pil_to_np(GTimg_pil) 
 
 #Setup
 INPUT = 'noise' # 'meshgrid'
@@ -83,9 +88,8 @@ def closure():
     print ('Iteration %05d    Loss %f' % (i, total_loss.data[0]), '\r', end='')
     if  SAVE and i % show_every == 0:
         out_np = var_to_np(out)
-        #plot_image_grid([np.clip(out_np, 0, 1)], factor=figsize, nrow=1)
         saveImage("Results/Denoising/Denoising_Itr" + str(i) + ".png", out_np, nrow = 1, factor = figsize)
-        
+        print ('Iteration %05d   PSNR %.3f' % (i,  compare_psnr(GTimg_np, out_np)), '\r', end='')
     i += 1
 
     return total_loss
@@ -95,5 +99,5 @@ optimize(OPTIMIZER, p, closure, LR, num_iter)
 
 out_np = var_to_np(net(net_input))
 if SAVE:
-    #q = plot_image_grid([np.clip(out_np, 0, 1), img_np], factor=13)
     saveImage("Results/Denoising/Denoising_FinalOutput.png", out_np, factor=13)
+    print ('Final PSNR %.3f' % (compare_psnr(GTimg_np, out_np)), '\r', end='') 
