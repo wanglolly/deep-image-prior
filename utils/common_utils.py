@@ -91,7 +91,7 @@ def load(path):
     return img
 
 def saveImage(path, images_np):
-    im = Image.fromarray(images_np)
+    im = Image.fromarray(images_np, 'RGB')
     im.save(paht)
 
 def get_image(path, imsize=-1):
