@@ -42,7 +42,7 @@ def crop_npimage(img, d=32):
             int((img.shape[3] + new_size[1])/2) - 1,
     ]
 
-    img_cropped = img[0,0][0,2][bbox[0], bbox[2]][bbox[1], bbox[3]]
+    img_cropped = img[:, :, bbox[0]:bbox[2],bbox[1]: bbox[3]]
     return img_cropped
 
 
