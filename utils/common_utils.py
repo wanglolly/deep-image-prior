@@ -112,9 +112,9 @@ def saveImage(path, images_np, nrow =8, factor=1, interpolation=None):
     
     plt.figure(figsize=(len(images_np)+factor,12+factor))
     if images_np[0].shape[0] == 1:
-        plt.savefig(paht, dpi=300, bbox_inches='tight')
+        plt.savefig(path, dpi=300, bbox_inches='tight')
     else:
-        plt.savefig(paht, dpi=300, bbox_inches='tight')
+        plt.savefig(path, dpi=300, bbox_inches='tight')
 
 def get_image(path, imsize=-1):
     """Load an image and resize to a cpecific size. 
