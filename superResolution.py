@@ -92,7 +92,7 @@ def closure():
     out_HR = net(net_input)
     out_LR = crop_npimage(downsampler(out_HR), d = 32)
 
-    total_loss = mse(out_LR, img_sLR_var) 
+    total_loss = mse(out_LR, img_np) 
     
     if tv_weight > 0:
         total_loss += tv_weight * tv_loss(out_HR)
