@@ -29,7 +29,8 @@ img_np = pil_to_np(img_pil)
 img_noisy_pil, img_noisy_np = get_noisy_image(img_np, sigma_)  
 if SAVE:
     #plot_image_grid([img_np, img_noisy_np], 4, 6)
-    saveImage("Results/Denoising_Original.png", img_noisy_np)
+    saveImage("Results/Denoising_Original.png", img_np)
+    saveImage("Results/Denoising_NoiseImage.png", img_noisy_np)
 
 #Setup
 INPUT = 'noise' # 'meshgrid'
