@@ -25,7 +25,7 @@ enforse_div32 = 'CROP' # we usually need the dimensions to be divisible by a pow
 SAVE = True
 # To produce images from the paper we took *_GT.png images from LapSRN viewer for corresponding factor,
 # e.g. x4/zebra_GT.png for factor=4, and x8/zebra_GT.png for factor=8 
-path_to_image = 'data/images/SR_GT.png'
+path_to_image = 'data/images/LowResolution.png'
 
 #Load Image
 img_pil = crop_image(get_image(path_to_image, imsize)[0], d=32)
