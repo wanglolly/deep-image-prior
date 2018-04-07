@@ -85,7 +85,7 @@ def closure():
     if  SAVE and i % show_every == 0:
         out_np = var_to_np(out)
         #plot_image_grid([np.clip(out_np, 0, 1)], factor=figsize, nrow=1)
-        saveImage("Results/Denoising_Itr" + i + ".png", out_np)
+        saveImage("Results/Denoising_Itr" + str(i) + ".png", out_np)
         
     i += 1
 
