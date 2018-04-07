@@ -9,8 +9,10 @@ from PIL import Image
 import PIL
 import numpy as np
 
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
-plt.use('Agg')
+
 
 def crop_image(img, d=32):
     '''Make dimensions divisible by `d`'''
