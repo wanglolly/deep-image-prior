@@ -99,7 +99,7 @@ print ('Number of params: %d' % s)
 # Loss
 mse = torch.nn.MSELoss().type(dtype)
 
-img_noisy_var = np_to_var(img_noisy_np).type(d
+img_noisy_var = np_to_var(img_noisy_np).type(dtype)
 
 #Optimize
 net_input_saved = net_input.data.clone()
