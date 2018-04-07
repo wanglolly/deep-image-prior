@@ -80,7 +80,7 @@ PSNRCursor = csv.writer(PSNRFile)
 
 #Initial PSNR
 print ('Input PSNR %.3f' % (compare_psnr(GTimg_np, img_np)), '\n', end='') 
-PSNRCursor.writerow(['Input', (compare_psnr(GTimg_np, img_np)])
+PSNRCursor.writerow(['Input', compare_psnr(GTimg_np, img_np)])
 
 i = 0
 def closure():
