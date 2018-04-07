@@ -28,8 +28,7 @@ SAVE = True
 path_to_image = 'data/images/LowResolution.png'
 
 #Load Image
-#img_pil = crop_image(get_image(path_to_image, imsize)[0], d=32)
-img_pil = get_image(path_to_image, imsize)
+img_pil = crop_image(get_image(path_to_image, imsize)[0], d=32)
 img_np = pil_to_np(img_pil)     
 if SAVE:
     saveImage("Results/SuperResolution/SR_Original.png", img_np, 4, 12)
@@ -91,7 +90,7 @@ def closure():
         net_input.data = net_input_saved + (noise.normal_() * reg_noise_std)
         
     out_HR = net(net_input)
-    out_LR = downsampler(out_HR)
+    out_LR = crop_npimage(downsampler(out_HR), d = 32)
 
     total_loss = mse(out_LR, img_LR_var) 
     

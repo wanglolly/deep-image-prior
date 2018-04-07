@@ -30,6 +30,24 @@ def crop_image(img, d=32):
     img_cropped = img.crop(bbox)
     return img_cropped
 
+def crop_npimage(img, d=32):
+    '''Make dimensions divisible by `d`'''
+
+    new_size = (img.shape[0] - img.shape[0] % d, 
+                img.shape[1] - img.shape[1] % d)
+
+    bbox = [
+            int((img.shape[0] - new_size[0])/2), 
+            int((img.shape[1] - new_size[1])/2),
+            int((img.shape[0] + new_size[0])/2),
+            int((img.shape[1] + new_size[1])/2),
+    ]
+
+    img_cropped = img[int((img.shape[1] - new_size[1])/2), int((img.shape[1] + new_size[1])/2)][int((img.shape[0] - new_size[0])/2),int((img.shape[0] + new_size[0])/2)]
+    return img_cropped
+
+
+
 def get_params(opt_over, net, net_input, downsampler=None):
     '''Returns parameters that we want to optimize over.
 
