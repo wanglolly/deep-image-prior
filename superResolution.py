@@ -1,50 +1,41 @@
 #Import libs
-
 from __future__ import print_function
 import matplotlib.pyplot as plt
-%matplotlib inline
-
 import argparse
 import os
 # os.environ['CUDA_VISIBLE_DEVICES'] = '1'
-
 import numpy as np
 from models import *
-
 import torch
 import torch.optim
-
 from skimage.measure import compare_psnr
 from models.downsampler import Downsampler
-
 from utils.sr_utils import *
 
+#Setup libray parameters
 torch.backends.cudnn.enabled = True
 torch.backends.cudnn.benchmark =True
 dtype = torch.cuda.FloatTensor
 
+#Setup file parameters
 imsize = -1 
 factor = 4 # 8
 enforse_div32 = 'CROP' # we usually need the dimensions to be divisible by a power of two (32 in this case)
 SAVE = False
-
 # To produce images from the paper we took *_GT.png images from LapSRN viewer for corresponding factor,
 # e.g. x4/zebra_GT.png for factor=4, and x8/zebra_GT.png for factor=8 
 path_to_image = 'data/images/LowResolution.png'
 
 #Load Image and Baseline
-
 # Starts here
 imgs = load_LR_HR_imgs_sr(path_to_image , imsize, factor, enforse_div32)
-
 imgs['bicubic_np'], imgs['sharp_np'], imgs['nearest_np'] = get_baselines(imgs['LR_pil'], imgs['HR_pil'])
 
-if PLOT:
+if SAVE:
     saveImage("Results/SuperResolution/HR_np",imgs['HR_np'], 4, 12)
     saveImage("Results/SuperResolution/bicubic_np",imgs['bicubic_np'], 4, 12)
     saveImage("Results/SuperResolution/sharp_np",imgs['sharp_np'], 4, 12)
     saveImage("Results/SuperResolution/nearest_np",imgs['nearest_np'], 4, 12)
-    #plot_image_grid([imgs['HR_np'], imgs['bicubic_np'], imgs['sharp_np'], imgs['nearest_np']], 4,12)
     print ('PSNR bicubic: %.4f   PSNR nearest: %.4f' %  (
                                         compare_psnr(imgs['HR_np'], imgs['bicubic_np']), 
                                         compare_psnr(imgs['HR_np'], imgs['nearest_np'])))

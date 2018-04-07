@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 #matplotlib inline
 import os
 # os.environ['CUDA_VISIBLE_DEVICES'] = '1'
+import csv
 import numpy as np
 from models import *
 import torch
@@ -34,9 +35,6 @@ if SAVE:
 GTfilename = "data/images/noise_GT.png"
 GTimg_pil = crop_image(get_image(GTfilename, imsize)[0], d=32)
 GTimg_np = pil_to_np(GTimg_pil) 
-
-#Initial PSNR
-print ('Input PSNR %.3f' % (compare_psnr(GTimg_np, img_np)), '\n', end='') 
 
 #Setup
 INPUT = 'noise' # 'meshgrid'
@@ -75,6 +73,15 @@ img_noisy_var = np_to_var(img_np).type(dtype)
 net_input_saved = net_input.data.clone()
 noise = net_input.data.clone()
 
+#Prepare PSNR File
+PSNRFilename = 'Results/Denoising/PSNR.csv'
+PSNRFile = open(PSNRFilename, 'w')
+PSNRCursor = csv.writer(PSNRFile)
+
+#Initial PSNR
+print ('Input PSNR %.3f' % (compare_psnr(GTimg_np, img_np)), '\n', end='') 
+PSNRCursor.writerow(['Input', (compare_psnr(GTimg_np, img_np)])
+
 i = 0
 def closure():
     
@@ -87,12 +94,13 @@ def closure():
    
     total_loss = mse(out, img_noisy_var)
     total_loss.backward()
-        
-    print ('Iteration %05d    Loss %f' % (i, total_loss.data[0]), '\r', end='')
+
+    out_np = var_to_np(out)    
+    print ('Iteration %05d    Loss %f' % (i, total_loss.data[0]), '\n', end='')
+    print ('Iteration %05d   PSNR %.3f' % (i,  compare_psnr(GTimg_np, out_np)), '\r',end='') 
+    PSNRCursor.writerow([str(i)], compare_psnr(GTimg_np, out_np))
     if  SAVE and i % show_every == 0:
-        out_np = var_to_np(out)
-        saveImage("Results/Denoising/Denoising_Itr" + str(i) + ".png", out_np, nrow = 1, factor = figsize)
-        print ('\n' + 'Iteration %05d   PSNR %.3f' % (i,  compare_psnr(GTimg_np, out_np)), '\n',end='')
+        saveImage("Results/Denoising/Denoising_Itr" + str(i) + ".png", out_np, nrow = 1, factor = figsize)  
     i += 1
 
     return total_loss
@@ -104,3 +112,4 @@ out_np = var_to_np(net(net_input))
 if SAVE:
     saveImage("Results/Denoising/Denoising_FinalOutput.png", out_np, factor=13)
     print ('\n' +'Final PSNR %.3f' % (compare_psnr(GTimg_np, out_np)), '\n', end='') 
+    PSNRCursor.writerow('Final', compare_psnr(GTimg_np, out_np))
