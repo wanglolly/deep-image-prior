@@ -89,7 +89,7 @@ def closure():
     if  SAVE and i % show_every == 0:
         out_np = var_to_np(out)
         saveImage("Results/Denoising/Denoising_Itr" + str(i) + ".png", out_np, nrow = 1, factor = figsize)
-        print ('Iteration %05d   PSNR %.3f  Loss %f' % (i,  compare_psnr(GTimg_np, out_np),total_loss.data[0]), '\n',end='')
+        print ('\n' + 'Iteration %05d   PSNR %.3f' % (i,  compare_psnr(GTimg_np, out_np)), '\n',end='')
     i += 1
 
     return total_loss
