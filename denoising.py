@@ -2,7 +2,7 @@
 from __future__ import print_function
 #matplotlib
 import matplotlib.pyplot as plt
-%matplotlib inline
+#matplotlib inline
 import os
 # os.environ['CUDA_VISIBLE_DEVICES'] = '1'
 import numpy as np
@@ -82,7 +82,7 @@ elif fname == 'data/denoising/F16_GT.png':
     
     net = get_net(input_depth, 'skip', pad,
                   skip_n33d=128, 
-                  skip_n33u=128, 
+                  sskip_n33u=128, 
                   skip_n11=4, 
                   num_scales=5,
                   upsample_mode='bilinear').type(dtype)
