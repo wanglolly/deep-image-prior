@@ -22,15 +22,13 @@ sigma_ = sigma/255.
 SAVE = True
 
 #Load Image
-fname = 'data/denoising/F16_GT.png'
+fname = 'data/images/noise_image.png'
 # Add synthetic noise
 img_pil = crop_image(get_image(fname, imsize)[0], d=32)
-img_np = pil_to_np(img_pil)   
-img_noisy_pil, img_noisy_np = get_noisy_image(img_np, sigma_)  
+img_np = pil_to_np(img_pil)     
 if SAVE:
     #plot_image_grid([img_np, img_noisy_np], 4, 6)
-    saveImage("Results/Denoising_Original.png", img_np, 4, 6)
-    saveImage("Results/Denoising_NoiseImage.png", img_noisy_np, 4, 6)
+    saveImage("Results/Denoising/Denoising_Original.png", img_np, 4, 6)
 
 #Setup
 INPUT = 'noise' # 'meshgrid'
@@ -63,7 +61,7 @@ print ('Number of params: %d' % s)
 # Loss
 mse = torch.nn.MSELoss().type(dtype)
 
-img_noisy_var = np_to_var(img_noisy_np).type(dtype)
+img_noisy_var = np_to_var(img_np).type(dtype)
 
 #Optimize
 net_input_saved = net_input.data.clone()
@@ -86,7 +84,7 @@ def closure():
     if  SAVE and i % show_every == 0:
         out_np = var_to_np(out)
         #plot_image_grid([np.clip(out_np, 0, 1)], factor=figsize, nrow=1)
-        saveImage("Results/Denoising_Itr" + str(i) + ".png", out_np, nrow = 1, factor = figsize)
+        saveImage("Results/Denoising/Denoising_Itr" + str(i) + ".png", out_np, nrow = 1, factor = figsize)
         
     i += 1
 
@@ -98,4 +96,4 @@ optimize(OPTIMIZER, p, closure, LR, num_iter)
 out_np = var_to_np(net(net_input))
 if SAVE:
     #q = plot_image_grid([np.clip(out_np, 0, 1), img_np], factor=13)
-    saveImage("Results/Denoising_FinalOutput.png", out_np, factor=13)
+    saveImage("Results/Denoising/Denoising_FinalOutput.png", out_np, factor=13)
