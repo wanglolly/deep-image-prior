@@ -3,6 +3,7 @@ from __future__ import print_function
 import matplotlib.pyplot as plt
 import argparse
 import os
+import csv
 # os.environ['CUDA_VISIBLE_DEVICES'] = '1'
 import numpy as np
 from models import *
@@ -21,7 +22,7 @@ dtype = torch.cuda.FloatTensor
 imsize = -1 
 factor = 4 # 8
 enforse_div32 = 'CROP' # we usually need the dimensions to be divisible by a power of two (32 in this case)
-SAVE = False
+SAVE = True
 # To produce images from the paper we took *_GT.png images from LapSRN viewer for corresponding factor,
 # e.g. x4/zebra_GT.png for factor=4, and x8/zebra_GT.png for factor=8 
 path_to_image = 'data/images/LowResolution.png'
@@ -107,7 +108,8 @@ def closure():
     
     if PLOT and i % 500 == 0:
         out_HR_np = var_to_np(out_HR)
-        plot_image_grid([imgs['HR_np'], imgs['bicubic_np'], np.clip(out_HR_np, 0, 1)], factor=13, nrow=3)
+        saveImage("Results/SuperResolution/SR_Itr" + str(i) + ".png", np.clip(out_HR_np, 0, 1), 3, 13)
+        #plot_image_grid([imgs['HR_np'], imgs['bicubic_np'], np.clip(out_HR_np, 0, 1)], factor=13, nrow=3)
 
     i += 1
     
@@ -125,4 +127,5 @@ out_HR_np = np.clip(var_to_np(net(net_input)), 0, 1)
 result_deep_prior = put_in_center(out_HR_np, imgs['orig_np'].shape[1:])
 
 # For the paper we acually took `_bicubic.png` files from LapSRN viewer and used `result_deep_prior` as our result
-plot_image_grid([imgs['HR_np'],imgs['bicubic_np'],out_HR_np], factor=4, nrow=1)
+#plot_image_grid([imgs['HR_np'],imgs['bicubic_np'],out_HR_np], factor=4, nrow=1)
+saveImage("Results/SuperResolution/SR_Final.png", out_HR_np, 1, 4)
