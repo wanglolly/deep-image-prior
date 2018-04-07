@@ -92,7 +92,7 @@ def load(path):
 
 def saveImage(path, images_np):
     im = Image.fromarray(images_np, 'RGB')
-    im.save(paht)
+    im.save(path)
 
 def get_image(path, imsize=-1):
     """Load an image and resize to a cpecific size. 
