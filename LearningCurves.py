@@ -37,15 +37,19 @@ figsize = 5
 imageFname = 'data/images/natureImage.jpeg'
 img_pil = crop_image(get_image(imageFname, imsize)[0], d=32)
 img_np = pil_to_np(img_pil)
+saveImage("Results/LearningCurves/Image.png", img_shuffle_np, nrow = 4, factor = 1)
 #Target2(Image noise)
 sigma = 25
 sigma_ = sigma/255.
 img_noisy_pil, img_noisy_np = get_noisy_image(img_np, sigma_)
+saveImage("Results/LearningCurves/ImageNoise.png", img_shuffle_np, nrow = 4, factor = 1)
 #Target3(Image pixel shuffle)
 img_shuffle_np = np.copy(img_np)
 np.random.shuffle(img_shuffle_np.flat)
+saveImage("Results/LearningCurves/ImageShuffle.png", img_shuffle_np, nrow = 4, factor = 1)
 #Target4(White noise)
 random_np = np.random.random_sample((3, img_pil.size[1], img_pil.size[0]))
+saveImage("Results/LearningCurves/Noise.png", img_shuffle_np, nrow = 4, factor = 1)
 
 TargetImage = {'image' : img_np,
                 'imageNoise' : img_noisy_np,
