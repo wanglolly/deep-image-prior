@@ -47,9 +47,9 @@ def crop_npimage(img, d=32):
 
 def shuffle_image(img, blockLen):
     width, height = img.size
-    xblock = width / BLOCKLEN
-    yblock = height / BLOCKLEN
-    blockmap = [(xb*BLOCKLEN, yb*BLOCKLEN, (xb+1)*BLOCKLEN, (yb+1)*BLOCKLEN)
+    xblock = width / blockLen
+    yblock = height / blockLen
+    blockmap = [(xb*blockLen, yb*blockLen, (xb+1)*blockLen, (yb+1)*blockLen)
         for xb in xrange(xblock) for yb in xrange(yblock)]
 
     shuffle = list(blockmap)
@@ -60,7 +60,7 @@ def shuffle_image(img, blockLen):
         c = img.crop(sbox)
         result.paste(c, box)
     return result
-    
+
 def get_params(opt_over, net, net_input, downsampler=None):
     '''Returns parameters that we want to optimize over.
 
