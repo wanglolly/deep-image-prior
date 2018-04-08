@@ -64,7 +64,7 @@ net = skip(input_depth, 3,
             num_channels_up   = [8, 16, 32, 64, 128],
             num_channels_skip = [0, 0, 0, 4, 4], 
             upsample_mode='bilinear',
-            need_sigmoid=True, need_bias=True, pad=pad, act_fun='LeakyReLU')
+            need_sigmoid=True, need_bias=True, pad=pad, act_fun='LeakyReLU').type(dtype)
    
 net_input = get_noise(input_depth, INPUT, (img_pil.size[1], img_pil.size[0])).type(dtype).detach()
 
