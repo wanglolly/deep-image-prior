@@ -40,7 +40,7 @@ img_np = pil_to_np(img_pil)
 #Target2(Image noise)
 sigma = 25
 sigma_ = sigma/255.
-img_noisy_np = get_noisy_image(img_np, sigma_)
+img_noisy_pil, img_noisy_np = get_noisy_image(img_np, sigma_)
 #Target3(Image pixel shuffle)
 img_shuffle_np = np.copy(img_np)
 np.random.shuffle(img_shuffle_np.flat)
