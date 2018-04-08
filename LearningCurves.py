@@ -54,7 +54,7 @@ TargetImage = {'image' : img_np,
 Target = 'Noise'
 
 #Prepare Loss File
-LossFilename = 'Results/LearningCurve_' + Target + '.csv'
+LossFilename = 'Results/LearningCurves/LearningCurve_' + Target + '.csv'
 LossFile = open(LossFilename, 'w')
 LossCursor = csv.writer(LossFile)
 
