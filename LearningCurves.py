@@ -45,7 +45,7 @@ img_noisy_np = get_noisy_image(img_np, sigma_)
 img_shuffle_np = np.copy(img_np)
 np.random.shuffle(img_shuffle_np.flat)
 #Target4(White noise)
-random_np = np.random.random_sample((img_np.shape(0), img_np.shape(1)))
+random_np = np.random.random_sample((img_pil.size[1], img_pil.size[0]))
 
 TargetImage = {'image' : image_np,
                 'imageNoise' : img_noisy_np,
