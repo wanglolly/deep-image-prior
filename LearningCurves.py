@@ -54,7 +54,7 @@ TargetImage = {'image' : img_np,
                 'imageNoise' : img_noisy_np,
                 'imageShuffle' : img_shuffle_np,
                 'Noise' : random_np}
-Target = 'imageShuffle'
+Target = 'Noise'
 
 #Prepare Loss File
 LossFilename = 'Results/LearningCurves/LearningCurve_' + Target + '.csv'
