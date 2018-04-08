@@ -49,8 +49,8 @@ def shuffle_image(img, blockLen):
     width, height = img.size
     xblock = width / blockLen
     yblock = height / blockLen
-    blockmap = [((int)(xb)*blockLen, (int)(yb)*blockLen, ((int)(xb)+1)*blockLen, ((int)(yb)+1)*blockLen)
-        for xb in range(xblock) for yb in range(yblock)]
+    blockmap = [(xb*blockLen, yb*blockLen, (xb+1)*blockLen, (yb+1)*blockLen)
+        for xb in range((int)(xblock)) for yb in range(int((yblock))]
 
     shuffle = list(blockmap)
     random.shuffle(shuffle)
