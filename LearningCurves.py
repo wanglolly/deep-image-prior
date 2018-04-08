@@ -34,7 +34,7 @@ input_depth = 32
 figsize = 5 
 
 #Load Image (Target1)
-imageFname = 'data/images/natureImage.png'
+imageFname = 'data/images/natureImage.jpeg'
 img_pil = crop_image(get_image(imageFname, imsize)[0], d=32)
 img_np = pil_to_np(img_pil)
 #Target2(Image noise)
