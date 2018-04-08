@@ -50,7 +50,7 @@ def shuffle_image(img, blockLen):
     xblock = width / blockLen
     yblock = height / blockLen
     blockmap = [(xb*blockLen, yb*blockLen, (xb+1)*blockLen, (yb+1)*blockLen)
-        for xb in xrange(xblock) for yb in xrange(yblock)]
+        for xb in range(xblock) for yb in range(yblock)]
 
     shuffle = list(blockmap)
     random.shuffle(shuffle)
