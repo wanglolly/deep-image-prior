@@ -107,7 +107,7 @@ def closure():
     # History
     psnr_history.append([psnr_LR, psnr_HR])
     
-    if SAVE and i % 500 == 0:
+    if SAVE and i % 300 == 0:
         out_HR_np = var_to_np(out_HR)
         saveImage("Results/SuperResolution/SR_Itr" + str(i) + ".png", np.clip(out_HR_np, 0, 1), nrow = 3)
  
