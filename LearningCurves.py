@@ -30,7 +30,7 @@ imsize = -1
 SAVE = False
 show_every = 500
 num_iter = 2400
-input_depth = 32 
+input_depth = 3 
 figsize = 5 
 
 #Load Image (Target1)
@@ -54,7 +54,7 @@ TargetImage = {'image' : img_np,
                 'imageNoise' : img_noisy_np,
                 'imageShuffle' : img_shuffle_np,
                 'Noise' : random_np}
-Target = 'Noise'
+Target = 'image'
 
 #Prepare Loss File
 LossFilename = 'Results/LearningCurves/LearningCurve_' + Target + '.csv'
