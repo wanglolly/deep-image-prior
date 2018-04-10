@@ -53,7 +53,7 @@ figsize = 4
 net = get_net(input_depth, 'skip', pad,
                 skip_n33d=128, 
                 skip_n33u=128, 
-                skip_n11=4, 
+                skip_n11=2, 
                 num_scales=5,
                 upsample_mode='bilinear').type(dtype)
     
