@@ -46,7 +46,7 @@ LR = 0.01
 OPTIMIZER='adam' # 'LBFGS'
 show_every = 300
 
-num_iter = 2800
+num_iter = 10000
 input_depth = 32 
 figsize = 4 
     
@@ -100,6 +100,9 @@ def closure():
     if  SAVE and i % show_every == 0:
         saveImage("Results/Demo/Denoising_Itr" + str(i) + ".png", out_np, nrow = 1, factor = 1)  
     i += 1
+    
+    if(compare_psnr(GTimg_np, out_np) > 28.0)
+        return total_loss
 
     return total_loss
 
