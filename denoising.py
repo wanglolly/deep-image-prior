@@ -101,7 +101,7 @@ def closure():
         saveImage("Results/Demo/Denoising_Itr" + str(i) + ".png", out_np, nrow = 1, factor = 1)  
     i += 1
     
-    if(compare_psnr(GTimg_np, out_np) > 28.0)
+    if(compare_psnr(GTimg_np, out_np) > 28.0):
         return total_loss
 
     return total_loss
