@@ -102,9 +102,9 @@ def closure():
     i += 1
     
     if(compare_psnr(GTimg_np, out_np) > 27.5):
-        return total_loss
+        return True
 
-    return total_loss
+    return False
 
 p = get_params(OPT_OVER, net, net_input)
 optimize(OPTIMIZER, p, closure, LR, num_iter)

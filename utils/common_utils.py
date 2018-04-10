@@ -291,7 +291,9 @@ def optimize(optimizer_type, parameters, closure, LR, num_iter):
         
         for j in range(num_iter):
             optimizer.zero_grad()
-            closure()
+            end = closure()
             optimizer.step()
+            if(end == True):
+                break
     else:
         assert False
