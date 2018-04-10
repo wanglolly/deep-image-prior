@@ -3,9 +3,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-case = 'SuperResolution'
+case = 'Demo'
 filename = 'Results/' + case + '/PSNR.csv'
-iterations = 2000
+iterations = 8536
 
 def read_table(file):
     dta = []
@@ -24,7 +24,7 @@ PSNR = get_PSNR(read_table(open(filename, 'r')))
 
 # training loss resnet 20, 56, 110
 plt.subplots()
-plt.plot(range(iterations), PSNR, label= case + '-PSNR')
+plt.plot(range(iterations - 1), PSNR, label= case + '-PSNR')
 
 plt.legend()
 plt.ylim([0., 35])
