@@ -73,7 +73,7 @@ net_input_saved = net_input.data.clone()
 noise = net_input.data.clone()
 
 #Prepare PSNR File
-PSNRFilename = 'Results/Denoising/PSNR.csv'
+PSNRFilename = 'Results/Demo/PSNR.csv'
 PSNRFile = open(PSNRFilename, 'w')
 PSNRCursor = csv.writer(PSNRFile)
 
@@ -98,7 +98,7 @@ def closure():
     print ('Iteration %05d    Loss %f   PSNR %.3f' % (i, total_loss.data[0], compare_psnr(GTimg_np, out_np)), '\r', end='')
     PSNRCursor.writerow([str(i), compare_psnr(GTimg_np, out_np), total_loss.data[0]])
     if  SAVE and i % show_every == 0:
-        saveImage("Results/Denoising/Denoising_Itr" + str(i) + ".png", out_np, nrow = 1, factor = 1)  
+        saveImage("Results/Demo/Denoising_Itr" + str(i) + ".png", out_np, nrow = 1, factor = 1)  
     i += 1
 
     return total_loss
@@ -108,7 +108,7 @@ optimize(OPTIMIZER, p, closure, LR, num_iter)
 
 out_np = var_to_np(net(net_input))
 if SAVE:
-    saveImage("Results/Denoising/Denoising_FinalOutput.png", out_np)
+    saveImage("Results/Demo/Denoising_FinalOutput.png", out_np)
     print ('\n' +'Final PSNR %.3f' % (compare_psnr(GTimg_np, out_np)), '\n', end='') 
     PSNRCursor.writerow(['Final', compare_psnr(GTimg_np, out_np)])
 PSNRFile.close()
