@@ -24,14 +24,14 @@ sigma_ = sigma/255.
 SAVE = True
 
 #Load Image
-fname = 'data/images/noise_image.png'
+fname = 'data/demoimages/Sakura_noise.png'
 img_pil = crop_image(get_image(fname, imsize)[0], d=32)
 img_np = pil_to_np(img_pil)     
 if SAVE:
     saveImage("Results/Denoising/Denoising_Original.png", img_np, nrow = 4, factor = 1)
 
 #Load GT image
-GTfilename = "data/images/noise_GT.png"
+GTfilename = "data/demoimages/Sakura_GT.png"
 GTimg_pil = crop_image(get_image(GTfilename, imsize)[0], d=32)
 GTimg_np = pil_to_np(GTimg_pil) 
 
