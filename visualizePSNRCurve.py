@@ -24,7 +24,7 @@ PSNR = get_PSNR(read_table(open(filename, 'r')))
 
 # training loss resnet 20, 56, 110
 plt.subplots()
-plt.plot(range(iterations), PSNR, label= 'PSNR')
+plt.plot(range(iterations), PSNR, label= case + '-PSNR')
 
 plt.legend()
 plt.ylim([0., 35])
