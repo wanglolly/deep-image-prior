@@ -46,7 +46,7 @@ LR = 0.01
 OPTIMIZER='adam' # 'LBFGS'
 show_every = 300
 
-num_iter = 2750
+num_iter = 2600
 input_depth = 32 
 figsize = 4 
     
