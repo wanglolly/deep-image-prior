@@ -44,7 +44,7 @@ reg_noise_std = 1./30. # set to 1./20. for sigma=50
 LR = 0.01
 
 OPTIMIZER='adam' # 'LBFGS'
-show_every = 300
+show_every = 500
 
 num_iter = 10000
 input_depth = 32 
