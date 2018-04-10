@@ -53,7 +53,7 @@ figsize = 4
 net = get_net(input_depth, 'skip', pad,
                 skip_n33d=128, 
                 skip_n33u=128, 
-                skip_n11=4, 
+                skip_n11=2, 
                 num_scales=5,
                 upsample_mode='bilinear').type(dtype)
     
@@ -101,7 +101,7 @@ def closure():
         saveImage("Results/Demo/Denoising_Itr" + str(i) + ".png", out_np, nrow = 1, factor = 1)  
     i += 1
     
-    if(compare_psnr(GTimg_np, out_np) > 27.5):
+    if(compare_psnr(GTimg_np, out_np) > 28.0):
         return True
 
     return False
