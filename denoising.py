@@ -50,7 +50,7 @@ num_iter = 3000
 input_depth = 32 
 figsize = 4 
     
-net = get_net(input_depth, 'Unet', pad,
+net = get_net(input_depth, 'UNet', pad,
                 skip_n33d=128, 
                 skip_n33u=128, 
                 skip_n11=4, 
